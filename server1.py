@@ -29,3 +29,26 @@ def home():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+    
+# app.py
+from flask import Flask, request, render_template, redirect, url_for
+
+app = Flask(__name__)
+
+# Зберігатиме ім'я користувача
+user_name = ""
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    global user_name
+    if request.method == 'POST':
+        user_name = request.form['name']  # Отримуємо ім'я з форми
+        return redirect(url_for('greet_user'))
+    return render_template('index.html')
+
+@app.route('/greet')
+def greet_user():
+    return f"Hello, {user_name}!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
